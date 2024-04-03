@@ -2,13 +2,11 @@ package dev.dondewaay.contentcalender.controller;
 
 import dev.dondewaay.contentcalender.model.Content;
 import dev.dondewaay.contentcalender.repository.ContentCollectionRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/content")
@@ -27,7 +25,12 @@ public class ContentController {
 
     // Create Read Update Delete - filter | paging and sorting
     @GetMapping("/{id}")
-    public Optional<Content> findById(@PathVariable Integer id) {
-        return repository.findById(id);
+    public Content findById(@PathVariable Integer id) {
+        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found"));
+    }
+
+    @PostMapping("/{id}")
+    public void create(Content content) {
+        repository.save(content);
     }
 }

@@ -33,3 +33,6 @@ Content-Type: application/json
   "dateUpdated": null,
   "url": "http://localhost:8080/api/my-first-blog-post"
 }
+
+### Delete by ID
+DELETE http://localhost:8080/api/content/1
